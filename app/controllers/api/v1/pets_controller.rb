@@ -20,6 +20,9 @@ class Api::V1::PetsController < ApplicationController
   def create
   end
 
+  def edit
+  end
+
   def update
   end
 

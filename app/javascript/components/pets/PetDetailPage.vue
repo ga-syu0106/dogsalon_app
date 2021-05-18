@@ -241,8 +241,28 @@
             <td colspan="9" style="border-top:none;"><textarea class="item-form" v-model="KnowShopComment" :disabled= true></textarea></td>
           </tr>
         </tbody>
-
       </table>
+
+      <div class="col-8">
+        <div class="text-right">
+        <v-icon
+          large
+          color="primary"
+          class="mr-2"
+          @click="editPet()"
+        >
+          mdi-pencil
+        </v-icon>  
+        <v-icon
+          large
+          color="error"
+          @click="deleteItem(item)"
+        >
+          mdi-delete
+        </v-icon>
+        </div>
+      </div>
+      
     </v-row>
   </v-app>
 </template>
@@ -275,6 +295,10 @@ export default {
       }else if(num == 4){
         this.imageSrc = this.imageSrc4
       }
+    },
+    editPet(){
+      console.log(this.p.pet.id)
+      this.$router.push({path:`/employees/charts/edit/${this.p.pet.id}`});
     }
   },
   computed: {
