@@ -46,7 +46,7 @@
                     md="5"
                   >
                     <v-text-field
-                      v-model="params.menu_name"
+                      v-model="editedItem.menu_name"
                       label="メニュー名"
                     ></v-text-field>
                   </v-col>
@@ -56,7 +56,7 @@
                     md="5"
                   >
                     <v-text-field
-                      v-model="params.breed"
+                      v-model="editedItem.breed"
                       label="犬種"
                     ></v-text-field>
                   </v-col>
@@ -66,7 +66,7 @@
                     md="5"
                   >
                     <v-text-field
-                      v-model ="params.price"
+                      v-model ="editedItem.price"
                       label="値段(円)"
                       type = "number"
                       min ="1"
@@ -78,7 +78,7 @@
                     md="5"
                   >
                     <v-text-field
-                      v-model="params.working_hours"
+                      v-model="editedItem.working_hours"
                       label="所用時間"
                       type ="time"
                     ></v-text-field>
@@ -98,7 +98,7 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click="close"
+                @click="create_menu()"
               >
                 Save
               </v-btn>
@@ -118,7 +118,7 @@
           {{ item.working_hours | moment }}
         </template>
 
-　　　　　<template v-slot:[`item.actions`]="{ item }">
+        <template v-slot:[`item.actions`]="{ item }">
           <v-icon
           large
           color="primary"
@@ -165,12 +165,19 @@ export default {
           { text: '　編集 / 削除', value: "actions"}
         ],
         search: '',
-        params: {
+        editedIndex: -1,
+        editedItem: {
           menu_name: '',
           breed: '',
           price: '',
           working_hours: '',
-        }
+        },
+        defaultItem: {
+        menu_name: '',
+          breed: '',
+          price: '',
+          working_hours: '',
+      },
     }
   },
 
@@ -192,7 +199,28 @@ export default {
   methods: {
     close () {
         this.dialog = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
       },
+    create_menu() {
+      axios.post('/api/v1/menus', {
+      params: this.editedItem
+      })
+      .then(response => {
+        alert("登録が完了しました");
+         if (this.editedIndex > -1) {
+          Object.assign(this.menus[this.editedIndex], this.editedItem)
+        } else {
+          this.menus.push(this.editedItem)
+        }
+        this.close()
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    },
   },
 }
 
