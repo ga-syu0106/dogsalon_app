@@ -1,4 +1,7 @@
 class Api::V1::MenusController < ApplicationController
+  before_action :set_menu, only: [:update]
+
+
   def index
     @menus = Menu.all
     render json: @menus
@@ -13,7 +16,13 @@ class Api::V1::MenusController < ApplicationController
     end
   end
 
-  def edit
+  def update
+    if @menu.update(create_menus)
+      render json: { status: 'SUCCESS' }
+    else
+      debugger
+      render json: { status: 'ERROR' }
+    end
   end
 
 
@@ -22,4 +31,7 @@ class Api::V1::MenusController < ApplicationController
     params.require(:params).permit(:menu_name, :breed, :price, :working_hours)
   end
 
+  def set_menu
+    @menu = Menu.find(params[:id])
+  end
 end

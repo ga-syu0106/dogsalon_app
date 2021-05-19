@@ -36,7 +36,9 @@
           </template>
 
            <v-card>
-            
+             <v-card-title>
+              <span class="headline">{{ formTitle }}</span>
+            </v-card-title>
             <v-card-text>
               <v-container>
                 <v-row>
@@ -196,6 +198,13 @@ export default {
         val || this.close()
       },
     },
+  computed: {
+      formTitle () {
+        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+      },
+    },
+
+
   methods: {
     close () {
         this.dialog = false
@@ -204,28 +213,43 @@ export default {
           this.editedIndex = -1
         })
       },
+       editItem (item) {
+        this.editedIndex = this.menus.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
+        console.log(this.editedItem.id)
+      },
     create_menu() {
-      axios.post('/api/v1/menus', {
-      params: this.editedItem
+      if (this.editedIndex > -1) {
+      axios.patch(`/api/v1/menus/${this.editedItem.id}`, {
+        params: this.editedItem
       })
       .then(response => {
         alert("登録が完了しました");
-         if (this.editedIndex > -1) {
           Object.assign(this.menus[this.editedIndex], this.editedItem)
-        } else {
-          this.menus.push(this.editedItem)
-        }
         this.close()
       })
       .catch((error) => {
         console.log(error);
       })
+      } else {
+        axios.post('/api/v1/menus', {
+      params: this.editedItem
+      })
+      .then(response => {
+        alert("登録が完了しました");
+          this.menus.push(this.editedItem)
+        this.close()
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      }
     },
   },
 }
 
 </script>
-
 <style scoped>
 .top-margin {
   margin-top:56px;
