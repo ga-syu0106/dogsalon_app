@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   end
   namespace :api, format: 'json' do
     namespace :v1 do
-      resources :pets, only: [:index, :show, :edit]
+      resources :pets, only: [:index, :show, :edit, :new]
     end
   end
   root 'home#index'
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get '/employees/charts/', to: 'home#index'
   get '/employees/charts/:id', to: 'home#index'
   get '/employees/charts/edit/:id', to: 'home#index'
+  get '/employees/charts/new/', to: 'home#index'
 
   get '/employees/settings/', to: 'home#index'
 

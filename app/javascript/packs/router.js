@@ -7,6 +7,7 @@ import BookingNew from '../components/bookings/BookingNew.vue';
 import PetIndexPage from '../components/pets/PetIndexPage.vue';
 import PetDetailPage from '../components/pets/PetDetailPage.vue';
 import PetDetailEdit from '../components/pets/PetDetailEdit.vue';
+import PetNew from '../components/pets/PetNew.vue';
 import MenuIndexPage from '../components/menus/MenuIndexPage.vue';
 
 
@@ -35,6 +36,9 @@ export default new VueRouter({
       { path: '/employees/charts/edit/:id(\\d+)',
       name: 'PetDetailEdit',
       component: PetDetailEdit },
+      { path: '/employees/charts/new/',
+      name: 'PetNew',
+      component: PetNew },
       { path: '/employees/settings/',
       component: MenuIndexPage },
   ]
