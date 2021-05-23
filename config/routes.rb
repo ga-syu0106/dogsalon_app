@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api, format: 'json' do
     namespace :v1 do
-      resources :menus, only: [:index, :create, :update]
+      resources :menus, only: [:index, :create, :update, :destroy]
     end
   end
   namespace :api, format: 'json' do
@@ -30,5 +30,4 @@ Rails.application.routes.draw do
   get '/employees/charts/:id', to: 'home#index'
 
   get '/employees/settings/', to: 'home#index'
-
 end

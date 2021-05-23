@@ -107,6 +107,18 @@
             </v-card-actions>
           </v-card>
            </v-dialog>
+
+            <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-card>
+            <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       
       <v-data-table
         :headers="headers"
@@ -117,7 +129,7 @@
       >
       
         <template v-slot:[`item.working_hours`]="{ item }">
-          {{ item.working_hours | moment }}
+          {{ item.working_hours }}
         </template>
 
         <template v-slot:[`item.actions`]="{ item }">
@@ -147,12 +159,15 @@
 
 <script>
 import axios from 'axios';
-import moment from 'moment';
+import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
+dayjs.locale(`ja`)
 
 export default {
   data() {
     return {
       dialog: false,
+      dialogDelete: false,
       menus: [],
       headers: [
           {
@@ -187,11 +202,11 @@ export default {
     axios
       .get('/api/v1/menus.json')
       .then(response => (this.menus = response.data))
-  },
-  filters: {
-    moment: function (data) {
-       return moment(data).format('HH:mm')
-    }
+      .then(function(menus) {
+        menus.map(function(menu) {
+         menu.working_hours = dayjs(menu.working_hours).format('HH:mm');
+        });
+      })
   },
   watch: {
       dialog (val) {
@@ -216,9 +231,30 @@ export default {
        editItem (item) {
         this.editedIndex = this.menus.indexOf(item)
         this.editedItem = Object.assign({}, item)
-        this.dialog = true
         console.log(this.editedItem.id)
+        this.dialog = true
       },
+      deleteItem (item) {
+        this.editedIndex = this.menus.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogDelete = true
+      },
+      deleteItemConfirm () {
+        axios.delete(`/api/v1/menus/${this.editedItem.id}`)
+      .then(response => {
+        alert("削除しました");
+          this.menus.splice(this.editedIndex, 1)
+        this.closeDelete()
+      })
+      },
+      closeDelete () {
+        this.dialogDelete = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+
     create_menu() {
       if (this.editedIndex > -1) {
       axios.patch(`/api/v1/menus/${this.editedItem.id}`, {
@@ -238,7 +274,8 @@ export default {
       })
       .then(response => {
         alert("登録が完了しました");
-          this.menus.push(this.editedItem)
+          //this.menus.push(this.editedItem)
+           this.$router.go({path: '/employees/settings', force: true});
         this.close()
       })
       .catch((error) => {

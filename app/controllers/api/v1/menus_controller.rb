@@ -1,5 +1,5 @@
 class Api::V1::MenusController < ApplicationController
-  before_action :set_menu, only: [:update]
+  before_action :set_menu, only: [:update, :destroy]
 
 
   def index
@@ -23,6 +23,11 @@ class Api::V1::MenusController < ApplicationController
       debugger
       render json: { status: 'ERROR' }
     end
+  end
+
+  def destroy
+    @menu.destroy
+    render json: { status: 'SUCCESS' }
   end
 
 
