@@ -1,7 +1,8 @@
 class Pet < ApplicationRecord
   belongs_to :customer
   has_many :bookings
-  has_one_attached :image
+  has_many_attached :images
+
   enum gender: {オス: 1, メス:2}
 
   enum breed: {チワワ:1, ダックス:2, ヨークシャーテリア:3, パピヨン:4, ポメラニアン:5,

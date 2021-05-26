@@ -96,25 +96,25 @@
         <div class="pet-image">
           
           <div class="big-image">
-            <img :src="imageSrc">
+            <img :src="imgMain">
           </div>
 
           <div class ="small-images">
 
+            <div class="small-image" @click="imgChange(0)">
+              <img :src="p.pet.images[0]">
+            </div>
+
             <div class="small-image" @click="imgChange(1)">
-              <img :src="imageSrc1">
+              <img :src="p.pet.images[1]">
             </div>
 
             <div class="small-image" @click="imgChange(2)">
-              <img :src="imageSrc2">
+              <img :src="p.pet.images[2]">
             </div>
 
             <div class="small-image" @click="imgChange(3)">
-              <img :src="imageSrc3">
-            </div>
-
-            <div class="small-image" @click="imgChange(4)">
-              <img :src="imageSrc4">
+              <img :src="p.pet.images[3]">
             </div>
 
           </div>
@@ -277,24 +277,12 @@ export default {
   data() {
     return {
       p: [],
-      imageSrc: '/assets/test.jpg',
-      imageSrc1: '/assets/test.jpg',
-      imageSrc2: '/assets/test2.jpg',
-      imageSrc3: '/assets/test3.jpg',
-      imageSrc4: '/assets/test4.jpg',
+      imgSrc: ""
     }
   },
   methods: {
     imgChange(num){
-      if (num == 1){
-        this.imageSrc = this.imageSrc1
-      }else if (num == 2){
-        this.imageSrc = this.imageSrc2
-      }else if (num == 3){
-        this.imageSrc = this.imageSrc3
-      }else if(num == 4){
-        this.imageSrc = this.imageSrc4
-      }
+      this.imgSrc = this.p.pet.images[num]
     },
     editPet(){
       console.log(this.p.pet.id)
@@ -302,6 +290,9 @@ export default {
     }
   },
   computed: {
+    imgMain(){
+      return this.imgSrc
+    },
     checkGender1(){
       if (this.p.pet.gender == "オス") {
         return true
@@ -414,8 +405,8 @@ export default {
     axios
       .get(`/api/v1/pets/${this.$route.params.id}.json`)
       .then(response => (this.p = response.data))
+      .then(response => (this.imgSrc = response.pet.images[0]))
   },
-
   filters: {
     moment: function (data) {
       return moment(data).format('YYYY年MM月DD日')

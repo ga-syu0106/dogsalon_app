@@ -1,3 +1,6 @@
+ActiveStorage::AnalyzeJob.queue_adapter = :inline
+ActiveStorage::PurgeJob.queue_adapter = :inline
+
 # Customerテーブル用データ生成
 7.times do |n|
   gimei = Gimei.name
@@ -21,8 +24,8 @@ end
   ["ビスケ", 3, "2019-10-16T12:00:00+09:00", 1, "尻尾の毛は長め希望です", "2020-12-5T12:00:00+09:00", "大塚ペットクリニック", true, "病院から薬をもらっています", false, "問題ありません", false, "問題ありません", "ふわふわで丸い感じでお願いします", 4],
   ["モナ", 3, "2015-02-20T12:00:00+09:00", 2, "左頬に怪我があります", "2020-11-20T12:00:00+09:00", "武蔵動物病院", true, "薬を摂取してよくなりました", false, "問題ありません", true, "病院から薬をもらっています", "洗いやすいようにカットして欲しいです", 2], 
   ["モナコ", 1, "2015-02-22T12:00:00+09:00", 1, "尻尾の毛は長め希望", "2020-11-21T12:00:00+09:00", "武蔵小杉動物病院", true, "薬を摂取して今はよくなりました", false, "問題はありません", true, "病院から2種類薬をもらっています", "洗いやすいようにカットして欲してください", 2], 
-].each do |pet_name, breed, birthday, gender, pet_comment, vaccine_day, hospital_name, dermatitis, dermatitis_comment, disease, disease_comment, flea, flea_comment, customer_request, customer_id, image|
-  Pet.create!(
+].each do |pet_name, breed, birthday, gender, pet_comment, vaccine_day, hospital_name, dermatitis, dermatitis_comment, disease, disease_comment, flea, flea_comment, customer_request, customer_id|
+  pet = Pet.create!(
     pet_name: pet_name,
     breed: breed,
     birthday: birthday,
@@ -39,6 +42,14 @@ end
     customer_request: customer_request,
     customer_id: customer_id
   )
+  pet.images.attach(io: File.open(Rails.root.join('app/assets/images/test.jpg')),
+  filename: 'test.jpg')
+  pet.images.attach(io: File.open(Rails.root.join('app/assets/images/test2.jpg')),
+  filename: 'test2.jpg')
+  pet.images.attach(io: File.open(Rails.root.join('app/assets/images/test3.jpg')),
+  filename: 'test3.jpg')
+  pet.images.attach(io: File.open(Rails.root.join('app/assets/images/test4.jpg')),
+  filename: 'test4.jpg')
 end
 
 # Enqueteテーブル用データ生成
