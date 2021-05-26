@@ -2,7 +2,6 @@ class Api::V1::PetsController < ApplicationController
   before_action :set_pet, only: [:show]
 
   def index
-
     @pets = Pet.all
     @bookings = Booking.all
     render :formats => :json and return
@@ -13,22 +12,6 @@ class Api::V1::PetsController < ApplicationController
     @bookings = Booking.where(pet_id: params[:id])
     render :formats => :json and return
   end
-
-  def new
-  end
-
-  def create
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def destory
-  end
-
 
   private
     def set_pet
