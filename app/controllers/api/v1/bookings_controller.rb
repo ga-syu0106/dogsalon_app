@@ -1,5 +1,5 @@
 class Api::V1::BookingsController < ApplicationController
-  before_action :set_booking, only: [:show]
+  before_action :set_booking, only: [:show, :destroy]
   def index
     # 1.ペット情報でも検索できるようにする。フォームに追加する。
     # 2.検索フォーム日付欄、犬種欄
@@ -8,11 +8,13 @@ class Api::V1::BookingsController < ApplicationController
     # 5.一覧は予約日時基準でソート。今日から未来。
     # 6.予約日時などの記載を修正する
     # 7.「全て表示」「一週間前まで」「昨日」「今日」「明日」「一週間後まで」で今表示中のデータをフィルター
-   
+    
+
       search_ransack = Customer.ransack(search_params)
       customer = search_ransack.result.pluck(:id)
-      customer_data = Booking.where(customer_id: customer)
+      customer_data = Booking.where(customer_id: customer).where("start_date_time > ?",Date.today).order(start_date_time: :ASC)
       @bookings = customer_data.includes(:customer, :pet, :menu)
+      
       @booking_count = @bookings.count.to_i
       render :formats => :json and return
 
@@ -29,7 +31,7 @@ class Api::V1::BookingsController < ApplicationController
   end
 
   def create
- 
+
     booking = Booking.new(create_bookings)
     menu_array = create_bookings[:menu_id]
     last_booking = Booking.where(pet_id: booking.pet_id).order(start_date_time: :desc).limit(1)
@@ -68,6 +70,28 @@ class Api::V1::BookingsController < ApplicationController
     render json: @booking
   end
 
+  def edit
+    @booking = Booking.includes(:customer, :pet, :menu).find_by_id(params[:id])
+    render :formats => :json and return
+  end
+
+  def update
+
+    @booking = Booking.find_by(id: params[:id])
+
+    if @booking.update_attributes(booking_edit)
+      render json: { status: 'SUCCESS' }
+    else
+      render json: { status: 'ERROR' }
+    end
+    
+  end
+
+  def destroy
+
+    @booking.destroy!
+  end
+
   def oneday
     # one_date = params[:date].to_datetime
     one_date_bookings = Booking.where(start_date_time: one_date.beginning_of_day..one_date.end_of_day)
@@ -94,10 +118,14 @@ class Api::V1::BookingsController < ApplicationController
     end
 
     def search_params
-      params.require(:q).permit(:last_name_eq, :mobilephone_eq)
+      params.require(:q).permit(:last_name_eq, :mobilephone_eq, :start_date_time)
     end
 
     def create_bookings
       params.require(:params).permit(:start_date_time, :end_date_time, :customer_id, :pet_id, :booking_shop_comment, menu_id: [])
+    end
+
+    def booking_edit
+      params.require(:params).permit(:start_date_time, :end_date_time, :booking_shop_comment)
     end
 end
