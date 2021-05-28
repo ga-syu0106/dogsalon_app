@@ -17,7 +17,7 @@ export default new VueRouter({
   base: process.env.BASE_URL,
   routes: [
     { path: '/',
-      component: Home },
+      component: BookingIndexPage },
     { path: '/employees/bookings/',
       component: BookingIndexPage },
     { path: '/employees/bookings/:id(\\d+)',

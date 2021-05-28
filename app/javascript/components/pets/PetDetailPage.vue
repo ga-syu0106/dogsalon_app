@@ -100,7 +100,7 @@
             <img :src="imgMain">
           </div>
 
-          <div class ="small-images">
+            <div class ="small-images">
 
             <div class="small-image" @click="imgChange">
               <img :src="p.pet.image">
@@ -120,91 +120,89 @@
 !-->
           </div>
 
-        </div>
-
-        <div class="pet-image-memo">
-          <p>写真の手書きメモ</p>
-          <textarea class="memo-form"></textarea>
-        </div>
-
-      </div>
-
-
-      <table class="table table-bordered col-8 pet-detail" style="border-left:none; border-top:none;">
-
-        <colgroup v-for="n of 10" :key="n">
-          <col class="col-width">
-        </colgroup>
-
-        <tbody>
-          <tr>
-            <td v-for="n of 9" :key="n" colspan="1" style="border:none;"></td>
-          </tr>
-
-          <tr>
-            <td colspan="4" class="table-label" style="border:none;">ペット情報</td>
-          </tr>
-
-          <tr>
-            <th colspan="2">ペットのお名前</th>
-            <td colspan="8">{{p.pet.pet_name}}</td>
-          </tr>
-
-          <tr>
-            <th colspan="2">犬種</th>
-            <td colspan="8">{{p.pet.breed}}</td>
-          </tr>
-
-          <tr>
-            <th colspan="2">お誕生日</th>
-            <td colspan="2">{{p.pet.birthday | moment}}</td>
-            <th colspan="2">性別</th>
-            <td colspan="2" style="border-right:none;"><label>♂ <input type="checkbox" v-model="checkGender1" :disabled= true></label></td>
-            <td colspan="2" style="border-left:none;"><label>♀ <input type="checkbox" v-model="checkGender2" :disabled= true></label></td>
-          </tr>
-
-          <tr>
-            <th colspan="2">一番最近の<br>ワクチン接種日</th>
-            <td colspan="2">{{p.pet.vaccine_day | moment}}</td>
-            <th colspan="2">かかりつけの<br>病院名</th>
-            <td colspan="4">{{p.pet.hospital_name}}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="pet-detail-form col-8">
-        <div  colspan="8" class="pet-detail-item">
-          <label>
-            ・ノミ・ダニはいますか？ ※もしいた場合、追加料金¥1,000円をいただく場合がございます。
-          </label>
-          <div class="double-check"> 
-            <label><input type="checkbox" v-model="checkDermatitis1" :disabled= true> なし</label>
-            <label><input type="checkbox" v-model="checkDermatitis2" :disabled= true> あり</label>
+          <div class="pet-image-memo">
+            <p>写真の手書きメモ</p>
+            <textarea class="memo-form"></textarea>
           </div>
-          <textarea class="item-form" v-model="dermatitisComment" :disabled= true></textarea>
-        </div>
-        <div class="pet-detail-item">
-          <label>
-            ・皮膚炎(かゆみ、湿疹など)はありますか？
-          </label>
-          <div class="double-check">
-            <label><input type="checkbox" v-model="checkDisease1" :disabled= true> なし</label>
-            <label><input type="checkbox" v-model="checkDisease2" :disabled= true> あり</label>
-          </div>
-          <textarea class="item-form" v-model="diseaseComment" :disabled= true></textarea>
+
         </div>
 
-        <div class="pet-detail-item">
-          <label>
-            ・持病(てんかんなど)はありますか？
-          </label>
-          <div class="double-check">
-            <label><input type="checkbox" v-model="checkFlea1" :disabled= true> なし</label>
-            <label><input type="checkbox" v-model="checkFlea2" :disabled= true> あり</label>
+
+        <table class="table table-bordered col-8 pet-detail" style="border-left:none; border-top:none;">
+
+          <colgroup v-for="n of 10" :key="n">
+            <col class="col-width">
+          </colgroup>
+
+          <tbody>
+            <tr>
+              <td v-for="n of 9" :key="n" colspan="1" style="border:none;"></td>
+            </tr>
+
+            <tr>
+              <td colspan="4" class="table-label" style="border:none;">ペット情報</td>
+            </tr>
+
+            <tr>
+              <th colspan="2">ペットのお名前</th>
+              <td colspan="8">{{p.pet.pet_name}}</td>
+            </tr>
+
+            <tr>
+              <th colspan="2">犬種</th>
+              <td colspan="8">{{p.pet.breed}}</td>
+            </tr>
+
+            <tr>
+              <th colspan="2">お誕生日</th>
+              <td colspan="2">{{p.pet.birthday | moment}}</td>
+              <th colspan="2">性別</th>
+              <td colspan="2" style="border-right:none;"><label>♂ <input type="checkbox" v-model="checkGender1" :disabled= true></label></td>
+              <td colspan="2" style="border-left:none;"><label>♀ <input type="checkbox" v-model="checkGender2" :disabled= true></label></td>
+            </tr>
+
+            <tr>
+              <th colspan="2">一番最近の<br>ワクチン接種日</th>
+              <td colspan="2">{{p.pet.vaccine_day | moment}}</td>
+              <th colspan="2">かかりつけの<br>病院名</th>
+              <td colspan="4">{{p.pet.hospital_name}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pet-detail-form col-8">
+          <div  colspan="8" class="pet-detail-item">
+            <label>
+              ・ノミ・ダニはいますか？ ※もしいた場合、追加料金¥1,000円をいただく場合がございます。
+            </label>
+            <div class="double-check"> 
+              <label><input type="checkbox" v-model="checkDermatitis1" :disabled= true> なし</label>
+              <label><input type="checkbox" v-model="checkDermatitis2" :disabled= true> あり</label>
+            </div>
+            <textarea class="item-form" v-model="dermatitisComment" :disabled= true></textarea>
           </div>
-            <textarea class="item-form" v-model="fleaComment" :disabled= true></textarea>
+          <div class="pet-detail-item">
+            <label>
+              ・皮膚炎(かゆみ、湿疹など)はありますか？
+            </label>
+            <div class="double-check">
+              <label><input type="checkbox" v-model="checkDisease1" :disabled= true> なし</label>
+              <label><input type="checkbox" v-model="checkDisease2" :disabled= true> あり</label>
+            </div>
+            <textarea class="item-form" v-model="diseaseComment" :disabled= true></textarea>
+          </div>
+
+          <div class="pet-detail-item">
+            <label>
+              ・持病(てんかんなど)はありますか？
+            </label>
+            <div class="double-check">
+              <label><input type="checkbox" v-model="checkFlea1" :disabled= true> なし</label>
+              <label><input type="checkbox" v-model="checkFlea2" :disabled= true> あり</label>
+            </div>
+              <textarea class="item-form" v-model="fleaComment" :disabled= true></textarea>
+          </div>
         </div>
-      </div>
 
       <table class="table table-bordered col-8 pet-detail" style="border-left:none; border-top:none;">
 

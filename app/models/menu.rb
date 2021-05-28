@@ -1,5 +1,5 @@
 class Menu < ApplicationRecord
-  has_many :bookings, through: :booking_menus
+  has_many :bookings, through: :booking_menus, dependent: :destroy
   has_many :booking_menus, dependent: :destroy
 
   enum breed: {チワワ:1, ダックス:2, ヨークシャーテリア:3, パピヨン:4, ポメラニアン:5,

@@ -1,5 +1,4 @@
 
-
 if @booking_count > 1
 
     json.array! @bookings do |booking|
