@@ -1,5 +1,6 @@
 <template>
   <v-app id="app" class="top-margin">
+    <div v-if="this.p.customer!=null">
     <div class="cyan lighten-3 pt-4 pb-2">
       <span class="ml-10">電子カルテ詳細</span>
     </div>
@@ -101,10 +102,10 @@
 
           <div class ="small-images">
 
-            <div class="small-image" @click="imgChange(0)">
-              <img :src="p.pet.images[0]">
+            <div class="small-image" @click="imgChange">
+              <img :src="p.pet.image">
             </div>
-
+<!--
             <div class="small-image" @click="imgChange(1)">
               <img :src="p.pet.images[1]">
             </div>
@@ -116,7 +117,7 @@
             <div class="small-image" @click="imgChange(3)">
               <img :src="p.pet.images[3]">
             </div>
-
+!-->
           </div>
 
         </div>
@@ -264,6 +265,7 @@
       </div>
       
     </v-row>
+  </div>
   </v-app>
 </template>
 
@@ -281,8 +283,8 @@ export default {
     }
   },
   methods: {
-    imgChange(num){
-      this.imgSrc = this.p.pet.images[num]
+    imgChange(){
+      this.imgSrc = this.p.pet.image
     },
     editPet(){
       console.log(this.p.pet.id)
@@ -405,7 +407,7 @@ export default {
     axios
       .get(`/api/v1/pets/${this.$route.params.id}.json`)
       .then(response => (this.p = response.data))
-      .then(response => (this.imgSrc = response.pet.images[0]))
+      .then(response => (this.imgSrc = response.pet.image))
   },
   filters: {
     moment: function (data) {

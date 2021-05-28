@@ -1,10 +1,6 @@
 json.pet do
   json.extract! @pet, :id, :pet_name, :breed, :birthday, :gender, :pet_comment, :vaccine_day, :hospital_name, :dermatitis, :dermatitis_comment, :disease, :disease_comment, :flea, :flea_comment
-  images = []
-  @pet.images.each do |image|
-    images << url_for(image)
-   end
-   json.images images
+  json.image rails_blob_url(@pet.pet_image) if @pet.pet_image.attached?
 
 end
 

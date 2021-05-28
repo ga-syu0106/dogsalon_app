@@ -42,14 +42,8 @@ end
     customer_request: customer_request,
     customer_id: customer_id
   )
-  pet.images.attach(io: File.open(Rails.root.join('app/assets/images/test.jpg')),
+  pet.pet_image.attach(io: File.open(Rails.root.join('app/assets/images/test.jpg')),
   filename: 'test.jpg')
-  pet.images.attach(io: File.open(Rails.root.join('app/assets/images/test2.jpg')),
-  filename: 'test2.jpg')
-  pet.images.attach(io: File.open(Rails.root.join('app/assets/images/test3.jpg')),
-  filename: 'test3.jpg')
-  pet.images.attach(io: File.open(Rails.root.join('app/assets/images/test4.jpg')),
-  filename: 'test4.jpg')
 end
 
 # Enqueteテーブル用データ生成
